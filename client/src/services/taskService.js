@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "http://localhost:5000/api/tasks";
+const API = "https://fundamentals-voting-solutions-but.trycloudflare.com/api/tasks";
 
 const getToken = () => {
   const user = JSON.parse(localStorage.getItem("user"));
