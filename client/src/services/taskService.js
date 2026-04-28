@@ -7,16 +7,54 @@ const getToken = () => {
   return user?.token;
 };
 
-export const getTasks = async () => {
-  const res = await axios.get(API, {
-    headers: { Authorization: `Bearer ${getToken()}` },
+export const getTasks = async (filters = {}) => {
+  const queryParams = new URLSearchParams();
+
+  if (filters.status) {
+    queryParams.append("status", filters.status);
+  }
+
+  if (filters.priority) {
+    queryParams.append("priority", filters.priority);
+  }
+
+  const queryString = queryParams.toString();
+
+  const res = await axios.get(queryString ? `${API}?${queryString}` : API, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
   });
+
   return res.data;
 };
 
 export const createTask = async (data) => {
   const res = await axios.post(API, data, {
-    headers: { Authorization: `Bearer ${getToken()}` },
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
   });
+
+  return res.data;
+};
+
+export const updateTask = async (id, data) => {
+  const res = await axios.put(`${API}/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+
+  return res.data;
+};
+
+export const deleteTask = async (id) => {
+  const res = await axios.delete(`${API}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+
   return res.data;
 };
